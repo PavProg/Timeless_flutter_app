@@ -1,0 +1,30 @@
+name: time_multiapplication_byflutter
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+repository: "https://github.com/PavProg/Time_application.git"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0-162.1.beta
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - AppMaterial/
