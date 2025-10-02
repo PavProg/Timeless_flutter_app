@@ -22,10 +22,10 @@ class BottomNavbar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem('AppMaterial/NewsIcon.svg', 0),
-          _buildNavItem('AppMaterial/ArchiveIcon.svg', 1),
-          _buildNavItem('AppMaterial/ProfileIcon.svg', 2),
-          _buildNavItem('AppMaterial/CartIcon.svg', 3),
+          _buildNavItem('AppMaterial/NewsIcon.png', 0),
+          _buildNavItem('AppMaterial/ArchiveIcon.png', 1),
+          _buildNavItem('AppMaterial/ProfileIcon.png', 2),
+          _buildNavItem('AppMaterial/CartIcon.png', 3),
         ],
       ),
     );  // Container
@@ -37,8 +37,8 @@ class BottomNavbar extends StatelessWidget {
       padding: EdgeInsets.all(12),
       child: Image.asset(
         iconPath,
-        width: 28,
-        height: 28,
+        width: 30,
+        height: 30,
         color: isSelected ? Color(0xFFD8B08C) : Colors.grey[600],
       ),
     );
