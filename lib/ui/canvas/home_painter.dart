@@ -45,7 +45,7 @@ class HomePainter extends CustomPainter {
 
     // Центральный логотип
     if (logoImage != null) {
-      final imageSize = Size(200, 200);
+      final imageSize = Size(363, 240);
       final imageOffset = Offset(
         (size.width - imageSize.width) / 2,
         (size.height - imageSize.height) / 2 - 50,

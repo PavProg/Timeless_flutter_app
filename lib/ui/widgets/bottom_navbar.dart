@@ -39,7 +39,7 @@ class BottomNavbar extends StatelessWidget {
         iconPath,
         width: 30,
         height: 30,
-        color: isSelected ? Color(0xFFD8B08C) : Colors.grey[600],
+        color: Colors.grey[600],
       ),
     );
   }
