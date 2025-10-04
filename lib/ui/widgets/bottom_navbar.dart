@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BottomNavbar extends StatelessWidget {
   final int selected;
 
-  BottomNavbar({this.selected = 0});
+  const BottomNavbar({super.key, this.selected = 0});
 
   @override
   Widget build(BuildContext context) {
