@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'menu/menu_handler.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({super.key});
@@ -24,7 +25,7 @@ class _MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<int>(
+    return PopupMenuButton<String>(
       icon: ImageIcon(
         const AssetImage('AppMaterial/ContextMenu.png'),
         size: 30,
@@ -33,12 +34,10 @@ class _MenuButton extends StatelessWidget {
       position: PopupMenuPosition.under,
       color: const Color(0xFF29292A),
       elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-      ),
-      itemBuilder: (context) => <PopupMenuEntry<int>>[
-        PopupMenuItem<int>(
-          value: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      itemBuilder: (context) => <PopupMenuEntry<String>>[
+        PopupMenuItem<String>(
+          value: 'hookah_bar',
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
@@ -61,8 +60,8 @@ class _MenuButton extends StatelessWidget {
           ),
         ),
         const PopupMenuDivider(height: 1),
-        PopupMenuItem<int>(
-          value: 1,
+        PopupMenuItem<String>(
+          value: 'cocktail_bar',
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
@@ -85,10 +84,7 @@ class _MenuButton extends StatelessWidget {
           ),
         ),
       ],
-      onSelected: (value) {
-        // Для действий с меню в дальнейшем
-      },
+      onSelected: (String value) => MenuHandler.handleMainMenuSelection(context, value),
     );
   }
-
 }
