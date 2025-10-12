@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dialog_widget.dart';
+import '';
 
 class DialogMenu {
   static void showFullWidthTopDialog(BuildContext context, List<SimpleDialogItem> items) {
     final width = MediaQuery.of(context).size.width;
 
-    showDialog(
+    showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      builder: (context) {
+      barrierColor: Colors.black.withOpacity(0.47),
+      transitionDuration: const Duration(milliseconds: 240),
+      pageBuilder: (context, anim1, anim2) {
         return Align(
           alignment: Alignment.topCenter,
           child: SafeArea(
@@ -42,7 +45,19 @@ class DialogMenu {
             ),
           ),
         );
-      }
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, -0.12),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic)),
+            child: child,
+          ),
+        );
+      },
     );
   }
 }
