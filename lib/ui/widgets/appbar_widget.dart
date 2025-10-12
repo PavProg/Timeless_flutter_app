@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'menu/menu_handler.dart';
+import 'menu/dialog_menu_handler.dart';
+import 'menu/dialog_widget.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({super.key});
@@ -84,7 +85,23 @@ class _MenuButton extends StatelessWidget {
           ),
         ),
       ],
-      onSelected: (String value) => MenuHandler.handleMainMenuSelection(context, value),
+      onSelected: (String value) {
+        switch (value) {
+          case 'hookah_bar':
+            DialogMenu.showFullWidthTopDialog(context, [
+              SimpleDialogItem('AppMaterial/Cocoaloco.png', 'ООО "СМАК-СУЛТАНА"'),
+              SimpleDialogItem('AppMaterial/tongsIcon.png', 'ООО "БИГ-СМОК"'),
+              SimpleDialogItem('AppMaterial/limonIcon.png', 'ИП Гурков'),
+            ]);
+          case 'cocktail_bar':
+            DialogMenu.showFullWidthTopDialog(context, [
+              SimpleDialogItem('AppMaterial/Cocoaloco.png', 'ООО "СМАК-СУЛТАНА"'),
+              SimpleDialogItem('AppMaterial/tongsIcon.png', 'ООО "БИГ-СМОК"'),
+              SimpleDialogItem('AppMaterial/limonIcon.png', 'ИП Гурков'),
+            ]);
+
+        }
+      },
     );
   }
 }
