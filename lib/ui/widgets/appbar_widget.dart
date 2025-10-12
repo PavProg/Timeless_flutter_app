@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'menu/dialog_menu_handler.dart';
 import 'menu/dialog_widget.dart';
 
-class AppBarWidget extends StatelessWidget {
-  const AppBarWidget({super.key});
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  final String? title;
+
+  const AppBarWidget({super.key, this.title});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +16,15 @@ class AppBarWidget extends StatelessWidget {
       backgroundColor: const Color(0xFF29292D),
       elevation: 0,
       leading: _MenuButton(),
+      title: title != null ? Text(
+        title!,
+        style: const TextStyle(
+          color: Color(0xFFD07B59),
+          fontSize: 24,
+          fontWeight: FontWeight.w500,
+        ),
+      ) : null,
+      centerTitle: true,
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 16),
@@ -60,7 +74,7 @@ class _MenuButton extends StatelessWidget {
             ],
           ),
         ),
-        const PopupMenuDivider(height: 1),
+        // const PopupMenuDivider(height: 1),
         PopupMenuItem<String>(
           value: 'cocktail_bar',
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -89,17 +103,22 @@ class _MenuButton extends StatelessWidget {
         switch (value) {
           case 'hookah_bar':
             DialogMenu.showFullWidthTopDialog(context, [
-              SimpleDialogItem('AppMaterial/Cocoaloco.png', 'ООО "СМАК-СУЛТАНА"'),
+              SimpleDialogItem(
+                'AppMaterial/Cocoaloco.png',
+                'ООО "СМАК-СУЛТАНА"',
+              ),
               SimpleDialogItem('AppMaterial/tongsIcon.png', 'ООО "БИГ-СМОК"'),
               SimpleDialogItem('AppMaterial/limonIcon.png', 'ИП Гурков'),
             ]);
           case 'cocktail_bar':
             DialogMenu.showFullWidthTopDialog(context, [
-              SimpleDialogItem('AppMaterial/Cocoaloco.png', 'ООО "СМАК-СУЛТАНА"'),
+              SimpleDialogItem(
+                'AppMaterial/Cocoaloco.png',
+                'ООО "СМАК-СУЛТАНА"',
+              ),
               SimpleDialogItem('AppMaterial/tongsIcon.png', 'ООО "БИГ-СМОК"'),
               SimpleDialogItem('AppMaterial/limonIcon.png', 'ИП Гурков'),
             ]);
-
         }
       },
     );

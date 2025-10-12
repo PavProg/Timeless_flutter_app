@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+
+class SelectedItemCanvas extends StatelessWidget {
+  const SelectedItemCanvas({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: ItemCanvasPainter(), // Основной painter для фона и декора
+      child: SizedBox.expand(
+        // Занимаем все доступное пространство
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Пример плитки для будущих элементов из базы данных
+            Container(
+              width: 320, // Ширина плитки
+              height: 160, // Высота плитки
+              margin: const EdgeInsets.symmetric(vertical: 16),
+              child: CustomPaint(
+                painter:
+                    ItemTilePainter(), // Отдельный painter для каждой плитки
+                child: const Center(
+                  child: Text(
+                    'Элемент из БД', // Заглушка для будущих данных
+                    style: TextStyle(color: Color(0xFFA1A1A1), fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            // Здесь можно добавить ListView.builder для элементов из базы данных
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Painter для основного фона экрана
+class ItemCanvasPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Основной фон
+    final backgroundPaint = Paint()..color = const Color(0xFF212226);
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      backgroundPaint,
+    );
+
+    // Можно добавить декоративные элементы, паттерны, градиенты
+    final decorPaint = Paint()
+      ..color = const Color(0xFF2A2A2C)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    // Пример: сетка в фоне
+    for (double i = 0; i < size.width; i += 50) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), decorPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+// Painter для отдельных плиток элементов
+class ItemTilePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
+
+    // Фон плитки
+    final tilePaint = Paint()..color = const Color(0xFF2A2A2C);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, const Radius.circular(18)),
+      tilePaint,
+    );
+
+    // Рамка плитки
+    final borderPaint = Paint()
+      ..color = const Color(0xFF4B4B4D)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, const Radius.circular(18)),
+      borderPaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
