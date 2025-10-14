@@ -14,7 +14,7 @@ class SelectedItemScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF212226),
       appBar: AppBarWidget(title: label),
       body: const SelectedItemCanvas(),
-      bottomNavigationBar: const BottomNavbar(selected: 0),
+      bottomNavigationBar: const BottomNavbar(),
     );
   }
 }

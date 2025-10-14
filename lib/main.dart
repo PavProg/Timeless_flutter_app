@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ui/screens/home_screen.dart';
+import 'ui/screens/cart_screen.dart';
 
 void main(){
   runApp(MyApp());
@@ -14,6 +15,11 @@ class MyApp extends StatelessWidget {
       title: 'TIMILESS APP',
       theme: ThemeData.dark(),
       home: HomeScreen(),
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/cart': (context) => const CartScreen(),
+        // Другие маршруты
+      },
     );
   }
 }

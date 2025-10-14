@@ -16,14 +16,16 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: const Color(0xFF29292D),
       elevation: 0,
       leading: _MenuButton(),
-      title: title != null ? Text(
-        title!,
-        style: const TextStyle(
-          color: Color(0xFFD07B59),
-          fontSize: 24,
-          fontWeight: FontWeight.w500,
-        ),
-      ) : null,
+      title: title != null
+          ? Text(
+              title!,
+              style: const TextStyle(
+                color: Color(0xFFD07B59),
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          : null,
       centerTitle: true,
       actions: [
         Padding(

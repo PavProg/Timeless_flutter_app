@@ -25,7 +25,7 @@ class DialogMenu {
               margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.only(bottom: 5),
               decoration: BoxDecoration(
-                color: const Color(0xFF4B4B4D),
+                color: const Color(0xFF29292A),
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(

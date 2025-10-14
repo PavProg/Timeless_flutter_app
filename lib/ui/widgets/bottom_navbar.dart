@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_multiapplication_byflutter/ui/screens/cart_screen.dart';
 
 class BottomNavbar extends StatelessWidget {
   final int selected;
@@ -22,25 +23,52 @@ class BottomNavbar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem('AppMaterial/NewsIcon.png', 0),
-          _buildNavItem('AppMaterial/ArchiveIcon.png', 1),
-          _buildNavItem('AppMaterial/ProfileIcon.png', 2),
-          _buildNavItem('AppMaterial/CartIcon.png', 3),
+          _buildNavItem('AppMaterial/NewsIcon.png', 0, context),
+          _buildNavItem('AppMaterial/ArchiveIcon.png', 1, context),
+          _buildNavItem('AppMaterial/ProfileIcon.png', 2, context),
+          _buildNavItem('AppMaterial/CartIcon.png', 3, context),
         ],
       ),
     );  // Container
   }
 
-  Widget _buildNavItem(String iconPath, int index) {
+  Widget _buildNavItem(String iconPath, int index, BuildContext context) {
     bool isSelected = selected == index;
-    return Container(
-      padding: EdgeInsets.all(12),
-      child: Image.asset(
-        iconPath,
-        width: 30,
-        height: 30,
-        color: Colors.grey[600],
+    return GestureDetector(
+      onTap: () {
+        _handleNavigation(context, index);
+      },
+
+      child: Container(
+        padding: EdgeInsets.all(12),
+        child: Image.asset(
+          iconPath,
+          width: 30,
+          height: 30,
+          color: isSelected ? Color(0xFFD07B59) : Colors.grey[600],
+        ),
       ),
     );
   }
+
+  void _handleNavigation(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        // Navigator.of(context).popUntil((route) => route.isFirst);
+        print('News pressed');
+        break;
+      case 1:
+        print('button tracking pressed');
+        break;
+      case 2:
+        print('profile pressed');
+        break;
+      case 3:
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => CartScreen()),
+        );
+        break;
+    }
+  }
+
 }

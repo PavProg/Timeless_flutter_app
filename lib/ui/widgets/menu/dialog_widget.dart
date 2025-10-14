@@ -24,8 +24,8 @@ class SimpleDialogItem extends StatelessWidget {
           children: [
             Image.asset(
               iconPath,
-              width: 28,
-              height: 28,
+              width: 30,
+              height: 30,
               color: const Color(0xFF4B4B4D),
             ),
             const SizedBox(width: 14),

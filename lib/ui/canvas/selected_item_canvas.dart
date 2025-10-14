@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 
 class SelectedItemCanvas extends StatelessWidget {
+
   const SelectedItemCanvas({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return CustomPaint(
       painter: ItemCanvasPainter(), // Основной painter для фона и декора
       child: SizedBox.expand(
         // Занимаем все доступное пространство
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Пример плитки для будущих элементов из базы данных
             Container(
-              width: 320, // Ширина плитки
-              height: 160, // Высота плитки
-              margin: const EdgeInsets.symmetric(vertical: 16),
+              margin: const EdgeInsets.only(left: 10, top: 20),
+              width: screenWidth / 2 - 20, // Ширина плитки
+              height: screenHeight / 7 - 40, // Высота плитки
               child: CustomPaint(
                 painter:
                     ItemTilePainter(), // Отдельный painter для каждой плитки
                 child: const Center(
                   child: Text(
-                    'Элемент из БД', // Заглушка для будущих данных
+                    ' MustHave \nLimon-Lime', // Заглушка для будущих данных
                     style: TextStyle(color: Color(0xFFA1A1A1), fontSize: 16),
                   ),
                 ),
@@ -54,9 +59,9 @@ class ItemCanvasPainter extends CustomPainter {
       ..strokeWidth = 1;
 
     // Пример: сетка в фоне
-    for (double i = 0; i < size.width; i += 50) {
-      canvas.drawLine(Offset(i, 0), Offset(i, size.height), decorPaint);
-    }
+    /* for (double i = 0; i < size.width; i += 50) {
+        canvas.drawLine(Offset(i, 0), Offset(i, size.height), decorPaint);
+    } */
   }
 
   @override
