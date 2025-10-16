@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:time_multiapplication_byflutter/data/models/catalog_item_model.dart';
+import '../widgets/catalog/catalog_item_widget.dart';
 
 class SelectedItemCanvas extends StatelessWidget {
 
@@ -9,6 +11,16 @@ class SelectedItemCanvas extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    final testItem = CatalogItemModel(
+      id: '1',
+      name: 'MustHave\nLemon-Lime',
+      weightOptions: [
+        WeightOption(weight: 100, price: 500),
+        WeightOption(weight: 200, price: 1000),
+        WeightOption(weight: 300, price: 1500),
+      ],
+    );
+
     return CustomPaint(
       painter: ItemCanvasPainter(), // Основной painter для фона и декора
       child: SizedBox.expand(
@@ -18,22 +30,25 @@ class SelectedItemCanvas extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Пример плитки для будущих элементов из базы данных
-            Container(
-              margin: const EdgeInsets.only(left: 10, top: 20),
-              width: screenWidth / 2 - 20, // Ширина плитки
-              height: screenHeight / 7 - 40, // Высота плитки
-              child: CustomPaint(
-                painter:
-                    ItemTilePainter(), // Отдельный painter для каждой плитки
-                child: const Center(
-                  child: Text(
-                    ' MustHave \nLimon-Lime', // Заглушка для будущих данных
-                    style: TextStyle(color: Color(0xFFA1A1A1), fontSize: 16),
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, top: 20),
+              child: CatalogItemWidget(
+                item: testItem,
+                width: screenWidth * 0.5,
+                collapsedHeight: screenHeight / 7 - 40,
               ),
             ),
-            // Здесь можно добавить ListView.builder для элементов из базы данных
+            // Здесь можно добавить ListView.builder для элементов из базы данных:
+            // ListView.builder(
+            //   itemCount: catalogItems.length,
+            //   itemBuilder: (context, index) {
+            //     return CatalogItemWidget(
+            //       item: catalogItems[index],
+            //       width: screenWidth / 2 - 20,
+            //       collapsedHeight: screenHeight / 7 - 40,
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),
@@ -53,10 +68,10 @@ class ItemCanvasPainter extends CustomPainter {
     );
 
     // Можно добавить декоративные элементы, паттерны, градиенты
-    final decorPaint = Paint()
+    /*final decorPaint = Paint()
       ..color = const Color(0xFF2A2A2C)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
+      ..strokeWidth = 1;*/
 
     // Пример: сетка в фоне
     /* for (double i = 0; i < size.width; i += 50) {
