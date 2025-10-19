@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'menu/dialog_menu_handler.dart';
 import 'menu/dialog_widget.dart';
+import 'settings/settings_button_handle.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -28,14 +29,29 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           : null,
       centerTitle: true,
       actions: [
-        Padding(
-          padding: EdgeInsets.only(right: 16),
-          child: Icon(Icons.settings),
+        IconButton(
+          icon: Icon(
+            Icons.settings,
+            color: Colors.grey[400],
+            size: 30,
+          ),
+          onPressed: () {
+            showSettingsBottomSheet(context);
+          },
         ),
       ],
     );
   }
 }
+
+void showSettingsBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (context) => DialogSettingMenu(),
+  );
+}
+
 
 class _MenuButton extends StatelessWidget {
   const _MenuButton();
