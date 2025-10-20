@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_multiapplication_byflutter/ui/screens/cart_screen.dart';
+import '../screens/profile_screen.dart';
 
 class BottomNavbar extends StatelessWidget {
   final int selected;
@@ -61,7 +62,9 @@ class BottomNavbar extends StatelessWidget {
         print('button tracking pressed');
         break;
       case 2:
-        print('profile pressed');
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => ProfileScreen()),
+        );
         break;
       case 3:
         Navigator.of(context).push(

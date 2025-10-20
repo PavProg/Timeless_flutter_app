@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ui/screens/home_screen.dart';
 import 'ui/screens/cart_screen.dart';
+import 'ui/screens/profile_screen.dart';
 
 void main(){
   runApp(MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomeScreen(),
         '/cart': (context) => const CartScreen(),
+        '/profile': (context) => const ProfileScreen(),
         // Другие маршруты
       },
     );
