@@ -15,40 +15,44 @@ class QuantitySelector extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _buildQuantityButton(
-          iconPath: 'AppMaterial/minusIcon.png',
-          onTap: () {
-            if (quantity > 0) {
-              onQuantityChanged(quantity - 1);
-            }
-          },
-        ),
-
-        const SizedBox(width: 8),    // Промежуток между - и количеством
-
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
-            color: const Color(0xFF4B4B4D),
-            borderRadius: BorderRadius.circular(6),
+            color: Color(0x804B4B4D),
+            borderRadius: BorderRadius.circular(20),
           ),
-          child: Text(
-            quantity.toString(),
-            style: const TextStyle(
-              color: Color(0xFFA1A1A1),
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            children: [
+              _buildQuantityButton(
+                iconPath: 'AppMaterial/minusIcon.png',
+                onTap: () {
+                  if (quantity > 0) {
+                    onQuantityChanged(quantity - 1);
+                  }
+                },
+              ),
+
+              const SizedBox(width: 8),
+
+              Text(
+                quantity.toString(),
+                style: const TextStyle(
+                  color: Color(0xFFA1A1A1),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              _buildQuantityButton(
+                iconPath: 'AppMaterial/plusIcon.png',
+                onTap: () {
+                  onQuantityChanged(quantity + 1);
+                },
+              ),
+            ],
           ),
-        ),
-
-        const SizedBox(width: 8),
-
-        _buildQuantityButton(
-          iconPath: 'AppMaterial/plusIcon.png',
-          onTap: () {
-            onQuantityChanged(quantity + 1);
-          },
         ),
       ],
     );
@@ -59,10 +63,6 @@ class QuantitySelector extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          color: const Color(0xFF4B4B4D),
-          borderRadius: BorderRadius.circular(6),
-        ),
         child: Image.asset(
           iconPath,
           width: 18,

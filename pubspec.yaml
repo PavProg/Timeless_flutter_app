@@ -29,3 +29,9 @@ flutter:
   uses-material-design: true
   assets:
     - AppMaterial/
+  fonts:
+    - family: Jura
+      fonts:
+        - asset: fonts/Jura.ttf
+        - asset: fonts/Jura-Bold.ttf
+          weight: 700

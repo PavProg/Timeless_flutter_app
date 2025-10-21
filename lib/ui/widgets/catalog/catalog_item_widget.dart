@@ -37,10 +37,14 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
         decoration: BoxDecoration(
           color: const Color(0xFF2A2A2C),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: Color(0xFF4B4B4D),
-            width: 2,
-          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x40A1A1A1),
+              blurRadius: 5,
+              spreadRadius: 1,
+              offset: Offset(0, 0),
+            ),
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -66,25 +70,17 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
 
   Widget _buildHeader() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
+            textAlign: TextAlign.center,
             widget.item.name,
             style: const TextStyle(
               color: Color(0xFFA1A1A1),
               fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
             ),
-          ),
-        ),
-        AnimatedRotation(
-          turns: isExpanded ? 0.5 : 0,
-          duration: const Duration(milliseconds: 300),
-          child: Icon(
-            Icons.keyboard_arrow_down,
-            color: Colors.grey[400],
-            size: 24,
           ),
         ),
       ],
@@ -141,9 +137,9 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
 
   Widget _buildCartButton() {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFF4B4B4D),
+        color: const Color(0x804B4B4D),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Image.asset(
@@ -174,13 +170,8 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
 
     // Если выбрана граммовка, добавляем высоту для селектора количества
     if (selectedWeightIndex >= 0) {
-      height += 60; // Высота для строки с кнопками +/- и корзиной
-      height += 16; // Отступ перед селектором количества
+      height += 50; // Высота для строки с кнопками +/- и корзиной
     }
-
-    // Добавляем запас на padding контейнера
-    height += 32; // 16px padding сверху + 16px снизу
-
     return height;
   }
 

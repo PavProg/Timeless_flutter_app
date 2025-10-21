@@ -24,12 +24,12 @@ class WeightSelector extends StatelessWidget {
         return GestureDetector(
           onTap: () => onWeightSelected(index),
           child: Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            margin: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: isSelected
-                  ? const Color(0xFFD07B59)
-                  : const Color(0xFF4B4B4D),
+                  ? const Color(0x80D07B59)
+                  : const Color(0x804B4B4D),
               borderRadius: BorderRadius.circular(25),
               border: isSelected
                 ? null
@@ -40,13 +40,13 @@ class WeightSelector extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    '${option.weight} кг',
+                    '${option.weight} гр',
                     style: TextStyle(
                       color: isSelected
                           ? Colors.white
                           : const Color(0xFFA1A1A1),
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -62,7 +62,7 @@ class WeightSelector extends StatelessWidget {
                           ? Colors.white
                           : const Color(0xFFA1A1A1),
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

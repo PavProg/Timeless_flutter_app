@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TIMILESS APP',
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+        fontFamily: 'Jura',
+      ),
       home: HomeScreen(),
       routes: {
         '/home': (context) => const HomeScreen(),

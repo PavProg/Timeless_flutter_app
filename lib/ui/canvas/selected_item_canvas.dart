@@ -13,7 +13,7 @@ class SelectedItemCanvas extends StatelessWidget {
 
     final testItem = CatalogItemModel(
       id: '1',
-      name: 'MustHave\nLemon-Lime',
+      name: 'MustHave\nStrawberry-Lychy',
       weightOptions: [
         WeightOption(weight: 100, price: 500),
         WeightOption(weight: 200, price: 1000),

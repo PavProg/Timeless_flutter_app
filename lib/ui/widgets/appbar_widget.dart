@@ -22,8 +22,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               title!,
               style: const TextStyle(
                 color: Color(0xFFD07B59),
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             )
           : null,

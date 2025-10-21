@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _userProfile = UserProfile(
       id: '1',
       name: 'Виталий Казанцев',
-      position: 'Head Master Hookah (senior)',
+      position: 'Head Master Hookah [Senior]',
       workplace: 'Timeless 1',
       expirienceYears: 1,
       expirienceMonths: 5,
@@ -77,8 +77,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: Color(0xFFD07B59),
+                      color: Color(0xFFAE5FDD),
                       shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x60AE5FDD),
+                          blurRadius: 3,
+                          spreadRadius: 1,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(width: 8),
@@ -86,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _userProfile.position,
                     style: TextStyle(
                       color: Color(0xFFA1A1A1),
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -110,6 +118,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 value: _userProfile.workplace,
                 isLocation: true,
               ),
+
+              // Кнопка выхода
+              _buttonExitProfile(),
             ],
           ),
         ),
@@ -150,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   label,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -162,13 +173,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: Color(0xFF313237),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 value,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -179,12 +190,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 value,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ),
         ],
+      ),
+    );
+  }
+
+  Widget _buttonExitProfile() {
+    return Container(
+      margin: EdgeInsets.only(top: 60),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 48),
+      child: ElevatedButton(
+        onPressed: () {
+          print('Button exid pressd');
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF1F2025),
+        ),
+        child: Text(
+          'Выход',
+          style: TextStyle(
+            color: Color(0xFFD07B59),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
