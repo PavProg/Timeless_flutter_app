@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_multiapplication_byflutter/data/services/api_service.dart';
 import '../../../data/models/catalog_item_model.dart';
 import 'quantity_selector.dart';
 import 'weight_selector.dart';
@@ -9,12 +10,14 @@ class CatalogItemWidget extends StatefulWidget {
   final CatalogItemModel item;
   final double width;
   final double collapsedHeight;
+  final Function(CatalogItemModel)? onItemUpdated;
 
   const CatalogItemWidget({
     Key? key,
     required this.item,
     required this.width,
     required this.collapsedHeight,
+    this.onItemUpdated,
   }) : super(key: key);
 
   @override
@@ -24,6 +27,71 @@ class CatalogItemWidget extends StatefulWidget {
 class _CatalogItemWidgetState extends State<CatalogItemWidget> {
   bool isExpanded = false;
   int selectedWeightIndex = -1;   // -1 = не выбрано
+  bool _isUpdating = false;
+  late CatalogItemModel _currentItem;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentItem = widget.item;
+  }
+
+  @override
+  void didUpdateWidget(CatalogItemWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.item.id != widget.item.id) {
+      setState(() {
+        _currentItem = widget.item;
+      });
+    }
+  }
+
+  Future<void> _updateQuantityOnServer(int newQuantity) async {
+    if (_isUpdating || selectedWeightIndex < 0) return;
+    final selectedOption = _currentItem.weightOptions[selectedWeightIndex];
+
+    setState(() {
+      _isUpdating = true;
+    });
+
+    try {
+      final ApiService apiService = ApiService();
+      final updatedItem = await apiService.updateQuantity(
+        productId: _currentItem.id,
+        weight: selectedOption.weight,
+        newQuantity: newQuantity,
+      );
+
+      setState(() {
+        _currentItem = updatedItem;
+      });
+
+      if (widget.onItemUpdated != null) {
+        widget.onItemUpdated!(updatedItem);
+      }
+
+      // Показываем подтверждение
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Количество обновлено'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ошибка: $e'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } finally {
+      setState(() {
+        _isUpdating = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +143,7 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
         Expanded(
           child: Text(
             textAlign: TextAlign.center,
-            widget.item.name,
+            _currentItem.name,
             style: const TextStyle(
               color: Color(0xFFA1A1A1),
               fontSize: 16,
@@ -94,7 +162,7 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         WeightSelector(
-          weightOptions: widget.item.weightOptions,
+          weightOptions: _currentItem.weightOptions,
           selectedIndex: selectedWeightIndex,
           onWeightSelected: (index) {
             setState(() {
@@ -112,7 +180,7 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
   }
 
   Widget _buildQuantityAndCartSection() {
-    final selectedOption = widget.item.weightOptions[selectedWeightIndex];
+    final selectedOption = _currentItem.weightOptions[selectedWeightIndex];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,10 +188,8 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
         Flexible(
           child: QuantitySelector(
             quantity: selectedOption.quantity,
-            onQuantityChanged: (newQuantity) {
-              setState(() {
-                selectedOption.quantity = newQuantity;
-              });
+            onQuantityChanged: (newQuantity) async {
+              await _updateQuantityOnServer(newQuantity);
             },
           ),
         ),
@@ -164,7 +230,7 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
     height += 60;  // Высота заголовка с padding
 
     // Высота селектора граммовки
-    int weightOptionsCount = widget.item.weightOptions.length;
+    int weightOptionsCount = _currentItem.weightOptions.length;
     height += weightOptionsCount * 52; // Каждая опция занимает ~52px (padding + текст + отступ)
     height += 16; // Отступ перед селектором граммовки
 
