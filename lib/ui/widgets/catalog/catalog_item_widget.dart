@@ -48,6 +48,7 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
 
   Future<void> _updateQuantityOnServer(int newQuantity) async {
     if (_isUpdating || selectedWeightIndex < 0) return;
+
     final selectedOption = _currentItem.weightOptions[selectedWeightIndex];
 
     setState(() {
@@ -57,20 +58,20 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
     try {
       final ApiService apiService = ApiService();
       final updatedItem = await apiService.updateQuantity(
-        productId: _currentItem.id,
-        weight: selectedOption.weight,
+        productId: selectedOption.id,   // id конкретного варианта
+        weight: selectedOption.weight,  // вес
         newQuantity: newQuantity,
       );
 
       setState(() {
-        _currentItem = updatedItem;
+        // Локально обновляем количество
+        selectedOption.quantity = newQuantity;
       });
 
       if (widget.onItemUpdated != null) {
-        widget.onItemUpdated!(updatedItem);
+        widget.onItemUpdated!(_currentItem);
       }
 
-      // Показываем подтверждение
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Количество обновлено'),
@@ -115,7 +116,7 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           child: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
@@ -137,13 +138,16 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
   }
 
   Widget _buildHeader() {
+    final displayName = _currentItem.brand.isNotEmpty
+        ? '${_currentItem.brand} ${_currentItem.name}'
+        : _currentItem.name;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
             textAlign: TextAlign.center,
-            _currentItem.name,
+            displayName,
             style: const TextStyle(
               color: Color(0xFFA1A1A1),
               fontSize: 16,
@@ -183,9 +187,8 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
     final selectedOption = _currentItem.weightOptions[selectedWeightIndex];
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Flexible(
+        Expanded(
           child: QuantitySelector(
             quantity: selectedOption.quantity,
             onQuantityChanged: (newQuantity) async {
@@ -193,9 +196,8 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
             },
           ),
         ),
-
         const SizedBox(width: 8),
-
+        // Кнопка корзины фиксированной ширины
         _buildCartButton(),
       ],
     );
@@ -203,15 +205,15 @@ class _CatalogItemWidgetState extends State<CatalogItemWidget> {
 
   Widget _buildCartButton() {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: const Color(0x804B4B4D),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Image.asset(
         'AppMaterial/cartIconsm.png',
-        width: 18,
-        height: 18,
+        width: 16,
+        height: 16,
         color: Colors.grey[400],
       ),
     );

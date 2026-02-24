@@ -4,7 +4,7 @@ import '../models/catalog_item_model.dart';
 
 class ApiService {
   // Локальный адрес ПК. После развертывание на сервере заменить на ip сервера
-  static const String _baseUrl = 'http://192.168.1.100:8000/products';
+  static const String _baseUrl = 'http://127.0.0.1:8000/products';
 
   Future<List<CatalogItemModel>> getProducts() async {
     try {

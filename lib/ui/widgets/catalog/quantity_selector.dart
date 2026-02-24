@@ -12,61 +12,54 @@ class QuantitySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: Color(0x804B4B4D),
-            borderRadius: BorderRadius.circular(20),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), // уменьшили
+      decoration: BoxDecoration(
+        color: const Color(0x804B4B4D),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildQuantityButton(
+            iconPath: 'AppMaterial/minusIcon.png',
+            onTap: () {
+              if (quantity > 0) onQuantityChanged(quantity - 1);
+            },
           ),
-          child: Row(
-            children: [
-              _buildQuantityButton(
-                iconPath: 'AppMaterial/minusIcon.png',
-                onTap: () {
-                  if (quantity > 0) {
-                    onQuantityChanged(quantity - 1);
-                  }
-                },
+          const SizedBox(width: 4), // уменьшили
+          // Фиксированная ширина для числа, чтобы избежать скачков
+          SizedBox(
+            width: 28,
+            child: Text(
+              quantity.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFFA1A1A1),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-
-              const SizedBox(width: 8),
-
-              Text(
-                quantity.toString(),
-                style: const TextStyle(
-                  color: Color(0xFFA1A1A1),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(width: 8),
-
-              _buildQuantityButton(
-                iconPath: 'AppMaterial/plusIcon.png',
-                onTap: () {
-                  onQuantityChanged(quantity + 1);
-                },
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+          const SizedBox(width: 4),
+          _buildQuantityButton(
+            iconPath: 'AppMaterial/plusIcon.png',
+            onTap: () => onQuantityChanged(quantity + 1),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildQuantityButton({required String iconPath, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(6),
+      child: Padding(
+        padding: const EdgeInsets.all(4),
         child: Image.asset(
           iconPath,
-          width: 18,
-          height: 18,
+          width: 16,
+          height: 16,
           color: Colors.grey[400],
         ),
       ),

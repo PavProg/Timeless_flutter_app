@@ -46,37 +46,32 @@ class _SelectedItemCanvasState extends State<SelectedItemCanvas> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    // Отступы по бокам экрана и между элементами
+    const double horizontalPadding = 16.0;
+    const double spacing = 8.0; // расстояние между колонками
+
+    // Ширина одного элемента: ширина экрана минус отступы, минус один промежуток, делённая на 2
+    double itemWidth = (screenWidth - horizontalPadding * 2 - spacing) / 2;
+
     return CustomPaint(
       painter: ItemCanvasPainter(),
       child: SizedBox.expand(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Заголовок секции
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
-                child: Text(
-                  'Каталог товаров',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Jura',
-                  ),
-                ),
-              ),
-
-              // Список товаров
-              ...items.map((item) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                child: CatalogItemWidget(
+              // Сетка товаров
+              Wrap(
+                spacing: spacing,
+                runSpacing: 12, // вертикальный отступ между рядами
+                children: items.map((item) => CatalogItemWidget(
                   item: item,
-                  width: screenWidth * 0.5,
-                  collapsedHeight: screenHeight / 7 - 40,
+                  width: itemWidth,
+                  collapsedHeight: screenHeight / 7 - 40, // можно подобрать другое значение
                   onItemUpdated: _updateItemInList,
-                ),
-              )).toList(),
+                )).toList(),
+              ),
             ],
           ),
         ),
@@ -89,25 +84,20 @@ class _SelectedItemCanvasState extends State<SelectedItemCanvas> {
     return FutureBuilder<List<CatalogItemModel>>(
       future: _catalogFuture,
       builder: (context, snapshot) {
-        // Состояние загрузки
         if (snapshot.connectionState == ConnectionState.waiting) {
           return _buildLoadingState();
         }
-
-        // Состояние ошибки
         if (snapshot.hasError) {
           return _buildErrorState(snapshot.error.toString());
         }
+        final rawItems = snapshot.data ?? [];
+        final groupedItems = _groupItems(rawItems);
+        _catalogItems = groupedItems; // сохраняем для обновлений
 
-        // Успешная загрузка
-        final items = snapshot.data ?? [];
-        _catalogItems = items; // Сохраняем для обновлений
-
-        if (items.isEmpty) {
+        if (groupedItems.isEmpty) {
           return _buildEmptyState();
         }
-
-        return _buildCanvasContent(items, context);
+        return _buildCanvasContent(groupedItems, context);
       },
     );
   }
@@ -214,7 +204,43 @@ class _SelectedItemCanvasState extends State<SelectedItemCanvas> {
   }
 }
 
-// Painter для фона (без изменений)
+List<CatalogItemModel> _groupItems(List<CatalogItemModel> items) {
+  final Map<String, List<WeightOption>> variantsMap = {};
+  final Map<String, CatalogItemModel> baseInfoMap = {};
+
+  for (var item in items) {
+    // Ключ группировки: бренд + название
+    final key = '${item.brand}_${item.name}';
+
+    if (!variantsMap.containsKey(key)) {
+      variantsMap[key] = [];
+      baseInfoMap[key] = item;
+    }
+
+    if (item.weightOptions.isNotEmpty) {
+      variantsMap[key]!.add(item.weightOptions.first);
+    }
+  }
+
+  // Формируем итоговый список
+  return variantsMap.entries.map((entry) {
+    final key = entry.key;
+    final variants = entry.value;
+    final base = baseInfoMap[key]!;
+
+    // Сортируем варианты по весу
+    variants.sort((a, b) => a.weight.compareTo(b.weight));
+
+    return CatalogItemModel(
+      id: base.id,
+      name: base.name,
+      weightOptions: variants,
+      brand: base.brand,
+      supplier: base.supplier,
+    );
+  }).toList();
+}
+
 class ItemCanvasPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
